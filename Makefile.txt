@@ -1,13 +1,4 @@
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall
-
-all: student_db
-
-student_db: main.cpp
-	$(CXX) $(CXXFLAGS) -o student_db main.cpp
-
+all:
+	g++ -std=c++20 main.cpp -o a.out
 clean:
-	rm -f student_db
-
-run: student_db
-	./student_db
+	rm a.out
