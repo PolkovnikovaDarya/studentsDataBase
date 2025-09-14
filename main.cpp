@@ -7,6 +7,14 @@ struct Student {
     int age;
     std::string major;
     double gpa;
+
+    // Функция для сравнения студентов по всем полям
+    bool isEqual(const Student& other) const {
+        return name == other.name && 
+               age == other.age && 
+               major == other.major && 
+               gpa == other.gpa;
+    }
 };
 
 // Функция для добавления студента в базу данных
