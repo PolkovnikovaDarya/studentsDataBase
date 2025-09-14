@@ -1,21 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <iomanip> // для std::fixed и std::setprecision
 
 struct Student {
     std::string name;
     int age;
     std::string major;
     double gpa;
-
-    // Функция для сравнения студентов по всем полям
-    bool isEqual(const Student& other) const {
-        return name == other.name && 
-               age == other.age && 
-               major == other.major && 
-               gpa == other.gpa;
-    }
 };
 
 // Функция для добавления студента в базу данных
@@ -36,96 +27,12 @@ void addStudent(std::vector<Student>& database) {
 
 // Функция для вывода всех студентов из базы данных
 void displayStudents(const std::vector<Student>& database) {
-    if (database.empty()) {
-        std::cout << "База данных пуста.\n";
-        return;
-    }
-
     std::cout << "Список студентов:\n";
-    for (size_t i = 0; i < database.size(); ++i) {
-        std::cout << "Студент #" << i + 1 << ":\n";
-        std::cout << "Имя: " << database[i].name << "\n";
-        std::cout << "Возраст: " << database[i].age << "\n";
-        std::cout << "Специальность: " << database[i].major << "\n";
-        std::cout << "Средний балл: " << std::fixed << std::setprecision(2) << database[i].gpa << "\n\n";
-    }
-}
-
-// Функция для сравнения двух студентов
-void compareStudents(const std::vector<Student>& database) {
-    if (database.size() < 2) {
-        std::cout << "Для сравнения нужно как минимум 2 студента в базе.\n";
-        return;
-    }
-
-    int index1, index2;
-    std::cout << "Введите номер первого студента (1-" << database.size() << "): ";
-    std::cin >> index1;
-    std::cout << "Введите номер второго студента (1-" << database.size() << "): ";
-    std::cin >> index2;
-
-    if (index1 < 1 || index1 > database.size() || index2 < 1 || index2 > database.size()) {
-        std::cout << "Неверный номер студента.\n";
-        return;
-    }
-
-    const Student& student1 = database[index1 - 1];
-    const Student& student2 = database[index2 - 1];
-
-    std::cout << "\nСравнение студентов:\n";
-    std::cout << "Студент #" << index1 << " и Студент #" << index2 << "\n\n";
-
-    if (student1.isEqual(student2)) {
-        std::cout << "Результат: Студенты идентичны по всем полям!\n";
-    } else {
-        std::cout << "Результат: Студенты отличаются.\n";
-        
-        // Показываем различия
-        std::cout << "Различия:\n";
-        if (student1.name != student2.name) {
-            std::cout << "- Имя: '" << student1.name << "' vs '" << student2.name << "'\n";
-        }
-        if (student1.age != student2.age) {
-            std::cout << "- Возраст: " << student1.age << " vs " << student2.age << "\n";
-        }
-        if (student1.major != student2.major) {
-            std::cout << "- Специальность: '" << student1.major << "' vs '" << student2.major << "'\n";
-        }
-        if (student1.gpa != student2.gpa) {
-            std::cout << "- Средний балл: " << std::fixed << std::setprecision(2) 
-                      << student1.gpa << " vs " << student2.gpa << "\n";
-        }
-    }
-}
-
-// Функция для поиска дубликатов в базе
-void findDuplicates(const std::vector<Student>& database) {
-    if (database.empty()) {
-        std::cout << "База данных пуста.\n";
-        return;
-    }
-
-    std::cout << "Поиск дубликатов студентов:\n";
-    bool foundDuplicates = false;
-
-    for (size_t i = 0; i < database.size(); ++i) {
-        for (size_t j = i + 1; j < database.size(); ++j) {
-            if (database[i].isEqual(database[j])) {
-                if (!foundDuplicates) {
-                    foundDuplicates = true;
-                    std::cout << "Найдены дубликаты:\n";
-                }
-                std::cout << "Студент #" << i + 1 << " и Студент #" << j + 1 << " идентичны\n";
-                std::cout << "Имя: " << database[i].name << "\n";
-                std::cout << "Возраст: " << database[i].age << "\n";
-                std::cout << "Специальность: " << database[i].major << "\n";
-                std::cout << "Средний балл: " << std::fixed << std::setprecision(2) << database[i].gpa << "\n\n";
-            }
-        }
-    }
-
-    if (!foundDuplicates) {
-        std::cout << "Дубликаты не найдены.\n";
+    for (const Student& student : database) {
+        std::cout << "Имя: " << student.name << "\n";
+        std::cout << "Возраст: " << student.age << "\n";
+        std::cout << "Специальность: " << student.major << "\n";
+        std::cout << "Средний балл: " << student.gpa << "\n\n";
     }
 }
 
@@ -134,11 +41,9 @@ int main() {
 
     int choice;
     do {
-        std::cout << "\n=== Меню ===\n";
+        std::cout << "Меню:\n";
         std::cout << "1. Добавить студента\n";
         std::cout << "2. Вывести список студентов\n";
-        std::cout << "3. Сравнить двух студентов\n";
-        std::cout << "4. Найти дубликаты в базе\n";
         std::cout << "0. Выход\n";
         std::cout << "Выберите действие: ";
         std::cin >> choice;
@@ -150,19 +55,11 @@ int main() {
             case 2:
                 displayStudents(database);
                 break;
-            case 3:
-                compareStudents(database);
-                break;
-            case 4:
-                findDuplicates(database);
-                break;
             case 0:
                 std::cout << "Выход из программы.\n";
                 break;
             default:
                 std::cout << "Неверный выбор. Попробуйте снова.\n";
-                std::cin.clear();
-                std::cin.ignore(10000, '\n');
         }
     } while (choice != 0);
 
