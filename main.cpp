@@ -96,6 +96,36 @@ void compareStudents(const std::vector<Student>& database) {
     }
 }
 
+// Функция для поиска дубликатов в базе
+void findDuplicates(const std::vector<Student>& database) {
+    if (database.empty()) {
+        std::cout << "База данных пуста.\n";
+        return;
+    }
+
+    std::cout << "Поиск дубликатов студентов:\n";
+    bool foundDuplicates = false;
+
+    for (size_t i = 0; i < database.size(); ++i) {
+        for (size_t j = i + 1; j < database.size(); ++j) {
+            if (database[i].isEqual(database[j])) {
+                if (!foundDuplicates) {
+                    foundDuplicates = true;
+                    std::cout << "Найдены дубликаты:\n";
+                }
+                std::cout << "Студент #" << i + 1 << " и Студент #" << j + 1 << " идентичны\n";
+                std::cout << "Имя: " << database[i].name << "\n";
+                std::cout << "Возраст: " << database[i].age << "\n";
+                std::cout << "Специальность: " << database[i].major << "\n";
+                std::cout << "Средний балл: " << std::fixed << std::setprecision(2) << database[i].gpa << "\n\n";
+            }
+        }
+    }
+
+    if (!foundDuplicates) {
+        std::cout << "Дубликаты не найдены.\n";
+    }
+}
 
 int main() {
     std::vector<Student> database;
