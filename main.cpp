@@ -49,6 +49,54 @@ void displayStudents(const std::vector<Student>& database) {
     }
 }
 
+// Функция для сравнения двух студентов
+void compareStudents(const std::vector<Student>& database) {
+    if (database.size() < 2) {
+        std::cout << "Для сравнения нужно как минимум 2 студента в базе.\n";
+        return;
+    }
+
+    int index1, index2;
+    std::cout << "Введите номер первого студента (1-" << database.size() << "): ";
+    std::cin >> index1;
+    std::cout << "Введите номер второго студента (1-" << database.size() << "): ";
+    std::cin >> index2;
+
+    if (index1 < 1 || index1 > database.size() || index2 < 1 || index2 > database.size()) {
+        std::cout << "Неверный номер студента.\n";
+        return;
+    }
+
+    const Student& student1 = database[index1 - 1];
+    const Student& student2 = database[index2 - 1];
+
+    std::cout << "\nСравнение студентов:\n";
+    std::cout << "Студент #" << index1 << " и Студент #" << index2 << "\n\n";
+
+    if (student1.isEqual(student2)) {
+        std::cout << "Результат: Студенты идентичны по всем полям!\n";
+    } else {
+        std::cout << "Результат: Студенты отличаются.\n";
+        
+        // Показываем различия
+        std::cout << "Различия:\n";
+        if (student1.name != student2.name) {
+            std::cout << "- Имя: '" << student1.name << "' vs '" << student2.name << "'\n";
+        }
+        if (student1.age != student2.age) {
+            std::cout << "- Возраст: " << student1.age << " vs " << student2.age << "\n";
+        }
+        if (student1.major != student2.major) {
+            std::cout << "- Специальность: '" << student1.major << "' vs '" << student2.major << "'\n";
+        }
+        if (student1.gpa != student2.gpa) {
+            std::cout << "- Средний балл: " << std::fixed << std::setprecision(2) 
+                      << student1.gpa << " vs " << student2.gpa << "\n";
+        }
+    }
+}
+
+
 int main() {
     std::vector<Student> database;
 
