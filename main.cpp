@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <iomanip> // для std::fixed и std::setprecision
 
 struct Student {
     std::string name;
@@ -35,12 +36,18 @@ void addStudent(std::vector<Student>& database) {
 
 // Функция для вывода всех студентов из базы данных
 void displayStudents(const std::vector<Student>& database) {
+    if (database.empty()) {
+        std::cout << "База данных пуста.\n";
+        return;
+    }
+
     std::cout << "Список студентов:\n";
-    for (const Student& student : database) {
-        std::cout << "Имя: " << student.name << "\n";
-        std::cout << "Возраст: " << student.age << "\n";
-        std::cout << "Специальность: " << student.major << "\n";
-        std::cout << "Средний балл: " << student.gpa << "\n\n";
+    for (size_t i = 0; i < database.size(); ++i) {
+        std::cout << "Студент #" << i + 1 << ":\n";
+        std::cout << "Имя: " << database[i].name << "\n";
+        std::cout << "Возраст: " << database[i].age << "\n";
+        std::cout << "Специальность: " << database[i].major << "\n";
+        std::cout << "Средний балл: " << std::fixed << std::setprecision(2) << database[i].gpa << "\n\n";
     }
 }
 
