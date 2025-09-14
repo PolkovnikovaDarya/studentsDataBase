@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <iomanip> // для std::fixed и std::setprecision
 
 struct Student {
     std::string name;
     int age;
     std::string major;
     double gpa;
+
     // Функция для сравнения студентов по всем полям
     bool isEqual(const Student& other) const {
         return name == other.name && 
@@ -34,18 +36,18 @@ void addStudent(std::vector<Student>& database) {
 
 // Функция для вывода всех студентов из базы данных
 void displayStudents(const std::vector<Student>& database) {
-    // Проверка, пуста ли база данных или нет
     if (database.empty()) {
         std::cout << "База данных пуста.\n";
         return;
     }
 
     std::cout << "Список студентов:\n";
-    for (const Student& student : database) {
-        std::cout << "Имя: " << student.name << "\n";
-        std::cout << "Возраст: " << student.age << "\n";
-        std::cout << "Специальность: " << student.major << "\n";
-        std::cout << "Средний балл: " << student.gpa << "\n\n";
+    for (size_t i = 0; i < database.size(); ++i) {
+        std::cout << "Студент #" << i + 1 << ":\n";
+        std::cout << "Имя: " << database[i].name << "\n";
+        std::cout << "Возраст: " << database[i].age << "\n";
+        std::cout << "Специальность: " << database[i].major << "\n";
+        std::cout << "Средний балл: " << std::fixed << std::setprecision(2) << database[i].gpa << "\n\n";
     }
 }
 
@@ -132,9 +134,11 @@ int main() {
 
     int choice;
     do {
-        std::cout << "Меню:\n";
+        std::cout << "\n=== Меню ===\n";
         std::cout << "1. Добавить студента\n";
         std::cout << "2. Вывести список студентов\n";
+        std::cout << "3. Сравнить двух студентов\n";
+        std::cout << "4. Найти дубликаты в базе\n";
         std::cout << "0. Выход\n";
         std::cout << "Выберите действие: ";
         std::cin >> choice;
@@ -146,11 +150,19 @@ int main() {
             case 2:
                 displayStudents(database);
                 break;
+            case 3:
+                compareStudents(database);
+                break;
+            case 4:
+                findDuplicates(database);
+                break;
             case 0:
                 std::cout << "Выход из программы.\n";
                 break;
             default:
                 std::cout << "Неверный выбор. Попробуйте снова.\n";
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
         }
     } while (choice != 0);
 
